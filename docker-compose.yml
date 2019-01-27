@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+
+  baseapp:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    networks:
+      - local
+    tty: true
+    volumes:
+      - "./:${PROJECT_PATH}"
+    working_dir: ${PROJECT_PATH}
+    ports:
+      - 80:8000
+
+networks:
+  local:

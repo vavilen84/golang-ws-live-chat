@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Go Blog Example</title>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <style>
+        body {
+            padding-top: 65px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+        }
+        .clear {
+            clear: both;
+        }
+        .content {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        .mt20{
+            margin-top:20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Go WS Chat Example</a>
+        </div>
+        <div class="collapse navbar-collapse">
+        </div>
+    </div>
+</div>
+<div>
+    <input placeholder="Enter Your Message" id="input" class="form-control" type="text"/>
+    <button class="mt20 btn btn-success" onclick="send()">Send</button>
+    <div class="mt20">
+        <pre id="output"></pre>
+    </div>
+    <script>
+        var input = document.getElementById("input");
+        var output = document.getElementById("output");
+        var socket = new WebSocket("ws://baseapp.golang-ws-live-chat_local:80/echo");
+        var name =prompt ("Enter Your Name:", " ");
+        socket.onopen = function () {
+            output.innerHTML += "Status: Connected\n";
+        };
+
+        socket.onmessage = function (e) {
+            output.innerHTML += e.data + "\n";
+        };
+
+        function send() {
+            socket.send(name + ": " +  input.value);
+            input.value = "";
+        }
+    </script>
+</div>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</body>
+</html>
